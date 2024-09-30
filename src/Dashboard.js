@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Typography } from '@mui/material';
-import { LineChart, PieChart } from '@mui/x-charts';
+import { LineChart, PieChart, BarChart } from '@mui/x-charts';
 
 // Random increasing number of active and total Users
 const activeUsers = Array.from(Array(12)).map((_, i) => Math.floor(Math.random() * 100 + 50 * i))
@@ -13,14 +13,15 @@ const totalUsers = Array.from(Array(12)).map((_, i) => {
 })
 
 // Get the past 12 months
-const Months = Array.from(Array(12)).map((_, i) => {
+const months = Array.from(Array(12)).map((_, i) => {
 	const date = new Date();
 	let month = date.getMonth() - i;
 	if (month < 0) month += 12
 	return (new Date(2000, month, 1)).toLocaleString('default', {month: 'short'})
 }).reverse();
 
-const Revenue = [
+// Total Revenue from all sources all time
+const revenue = [
 	{
 		title: 'Subscribed Users',
 		value: 2309
@@ -39,9 +40,17 @@ const Revenue = [
 	}
 ]
 
-const TotalRevenue = Revenue.reduce((sum, source) => sum + source.value, 0);
+const totalRevenue = revenue.reduce((sum, source) => sum + source.value, 0);
 
-const CardInfo = [
+// Streams from songs in the past 30 days
+const songs = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+	.split(' ').map(song => ({title: song, streams: Math.floor(Math.random() * 10000)}))
+	.sort((a, b) => b.streams - a.streams);
+
+const totalStreams = songs.reduce((total, song) => total + song.streams, 0);
+const topSongs = songs.slice(0, 5);
+
+const cardInfo = [
 	[
 		{
 			title: 'Active Users',
@@ -55,21 +64,21 @@ const CardInfo = [
 	[
 		{
 			title: 'Monthly Streams',
-			value: 434
+			value: totalStreams
 		},
 		{
 			title: 'Total Streams',
-			value: 3424
+			value: totalStreams * 3
 		}
 	],
 	[
 		{
 			title: 'Monthly Revenue',
-			value: `$${TotalRevenue * 0.3}`
+			value: `$${totalRevenue * 0.3}`
 		},
 		{
 			title: 'Total Revenue',
-			value: `$${TotalRevenue}`
+			value: `$${totalRevenue}`
 		}
 	],
 	[
@@ -86,7 +95,7 @@ const CardInfo = [
 
 // Cards with key metrics
 const Cards = () => {
-	return CardInfo.map((card, key) => {
+	return cardInfo.map((card, key) => {
 		const monthly = card[0];
 		const total = card[1]
 		return <Card key={key}>
@@ -101,7 +110,7 @@ const Graphs = () => {
 	return <div>
 		<Card>
 			<LineChart  
-				xAxis={[{ data: Months, scaleType: 'point', }]}
+				xAxis={[{ data: months, scaleType: 'point', }]}
 				series={[
 					{data: activeUsers, label: 'Active Users'},
 					{data: totalUsers, label: 'Total Users'}
@@ -112,12 +121,20 @@ const Graphs = () => {
 		<Card>
 		<PieChart
 			series={[
-				{data: Revenue.map((source, i) => ({
+				{data: revenue.map((source, i) => ({
 					id: i, value: source.value, label: source.title
 				}))},
 			]}
 			width={400}
 			height={200}
+			/>
+		</Card>
+		<Card>
+		<BarChart
+			xAxis={[{ scaleType: 'band', data: ['songs'] }]}
+			series={topSongs.map(song => ({data: [song.streams], label: song.title}))}
+			width={500}
+			height={300}
 			/>
 		</Card>
 	</div>
