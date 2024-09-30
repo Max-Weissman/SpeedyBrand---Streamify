@@ -5,15 +5,19 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
+    "prebuilt": "node index.js",
     "build": "webpack",
-    "hotstart": "webpack && node index.js"
+    "start": "webpack && node index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@babel/preset-env": "^7.25.4",
     "@babel/preset-react": "^7.24.7",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^6.1.1",
+    "@mui/x-charts": "^7.18.0",
     "babel": "^6.23.0",
     "babel-loader": "^9.2.1",
     "express": "^4.21.0",

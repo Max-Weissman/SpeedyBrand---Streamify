@@ -1,9 +1,11 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 
+import Home from './Home';
+
 function App() {
-  return <div>Hello World</div>;
-}
+  return <Home />;
+};
 
 const root = createRoot(document.getElementById('root'));
 root.render(<App />);
