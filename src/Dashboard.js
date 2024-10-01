@@ -47,7 +47,7 @@ const artists = ['Archie', 'Billy', 'Caroline', 'Darlene', 'Ethan', 'Francine', 
 
 // Streams from songs in the past 30 days
 const songs = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-	.split(' ').map(song => ({title: song, streams: Math.floor(Math.random() * 10000), artist: artists[Math.floor(Math.random() * 7)]}))
+	.split(' ').map(song => ({title: song, streams: Math.floor(Math.random() * 10000), artist: artists[Math.floor(Math.random() * artists.length)]}))
 	.sort((a, b) => b.streams - a.streams);
 
 const totalStreams = songs.reduce((total, song) => total + song.streams, 0);
@@ -57,11 +57,11 @@ const cardInfo = [
 	[
 		{
 			title: 'Active Users',
-			value: activeUsers[11]
+			value: activeUsers[activeUsers.length - 1]
 		},
 		{
 			title: 'Total Users',
-			value: totalUsers[11]
+			value: totalUsers[totalUsers.length - 1]
 		}
 	],
 	[
