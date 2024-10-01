@@ -118,20 +118,40 @@ const recentStreams = Array.from(Array(30)).map((_, i) => {
 
 // Cards with key metrics
 const Cards = () => {
-	return cardInfo.map((card, key) => {
-		const monthly = card[0];
-		const total = card[1]
-		return <Card key={key}>
-			<Typography>{monthly.title}: {monthly.value}</Typography>
-			<Typography>{total.title}: {total.value}</Typography>
-		</Card>
-	})
+	return <div style={{
+		display: 'flex',
+		gap: '1rem',
+		justifyContent: 'center',
+		flexWrap: 'wrap',
+		maxWidth: window.width
+	}}>
+		{cardInfo.map((card, key) => {
+			const monthly = card[0];
+			const total = card[1]
+			return <Card key={key} style={{ padding: '0.5rem'}}>
+				<Typography>{monthly.title}: {monthly.value}</Typography>
+				<Typography>{total.title}: {total.value}</Typography>
+			</Card>
+		})}
+	</div>
 };
 
 // Important Graphs from past 12 months
 const Graphs = () => {
-	return <div>
-		<Card>
+	return <div style={{
+		display: 'flex',
+		flexWrap: 'wrap',
+		justifyContent: 'center',
+		gap: '0.5rem'
+	}}>
+		<Card style={{ 
+			width: 'fit-content',
+			display: 'flex',
+			flexDirection: 'column',
+			alignItems: 'center',
+			padding: '0.5rem'
+		}}>
+			<Typography style={{ fontWeight: 'bold' }}>Users</Typography>
 			<LineChart  
 				xAxis={[{ data: months, scaleType: 'point', }]}
 				series={[
@@ -141,24 +161,38 @@ const Graphs = () => {
 				width={500}
 				height={300}/>
 		</Card>
-		<Card>
-		<PieChart
-			series={[
-				{data: revenue.map((source, i) => ({
-					id: i, value: source.value, label: source.title
-				}))},
-			]}
-			width={400}
-			height={200}
-			/>
-		</Card>
-		<Card>
-		<BarChart
-			xAxis={[{ scaleType: 'band', data: ['songs'] }]}
-			series={topSongs.map(song => ({data: [song.streams], label: song.title}))}
-			width={500}
-			height={300}
-			/>
+		<Card style={{ 
+			width: 'fit-content',
+			display: 'flex',
+			flexDirection: 'column',
+			alignItems: 'center',
+			padding: '0.5rem'
+		}}>
+			<Typography style={{ fontWeight: 'bold' }}>Monthly Revenue</Typography>
+			<PieChart
+				series={[
+					{data: revenue.map((source, i) => ({
+						id: i, value: source.value, label: source.title
+					}))},
+				]}
+				width={500}
+				height={200}
+				/>
+			</Card>
+		<Card style={{ 
+			width: 'fit-content',
+			display: 'flex',
+			flexDirection: 'column',
+			alignItems: 'center',
+			padding: '0.5rem'
+		}}>
+			<Typography style={{ fontWeight: 'bold' }}>Monthly Top 5</Typography>
+			<BarChart
+				xAxis={[{ scaleType: 'band', data: ['songs'] }]}
+				series={topSongs.map(song => ({data: [song.streams], label: song.title}))}
+				width={500}
+				height={300}
+				/>
 		</Card>
 	</div>
 }
@@ -197,24 +231,31 @@ const Table = () => {
 		},
 	];
 
-	return <DataGrid
-		rows={recentStreams}
-		columns={columns}
-		initialState={{
-		pagination: {
-			paginationModel: {
-			pageSize: 5,
+	return <div style={{ width: 'fit-content' }}>
+		<DataGrid
+			rows={recentStreams}
+			columns={columns}
+			initialState={{
+			pagination: {
+				paginationModel: {
+				pageSize: 5,
+				},
 			},
-		},
-		}}
-		pageSizeOptions={[5]}
-		checkboxSelection
-		disableRowSelectionOnClick
-  />
+			}}
+			pageSizeOptions={[5]}
+			checkboxSelection
+			disableRowSelectionOnClick
+		/>
+  </div>
 }
 
 const Dashboard = () => {
-	return <div>
+	return <div style={{
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		gap: '0.5rem',
+	}}>
 		<Cards />
 		<Graphs />
 		<Table />
